@@ -79,3 +79,43 @@ Use this structure for your second video submission:
 - **Use functions**: Encapsulating logic in functions makes code reusable.
 - **Entry points**: Use `if __name__ == "__main__":` to control script execution.
 - **Print statements**: Use them to provide clear feedback during execution.
+
+---
+
+# Conditional Logic - Milestone Walkthrough
+
+This section covers the implementation of conditional statements and logical operators in the **Aqua-Alert** project.
+
+## Why use Conditional Logic?
+Decision-making is the core of any automated system. In Aqua-Alert, we use conditional logic to:
+- **Trigger Alerts**: Send warnings when sensor values exceed safety thresholds.
+- **System Monitoring**: Verify if sensors are active or in maintenance mode.
+- **Categorization**: Classify environmental conditions based on multiple data points.
+
+## 📽️ Video Walkthrough Script (~2 Minutes)
+
+Use this structure for your third video submission:
+
+### 1. Introduction (30 Seconds)
+- "Hi, I'm [Your Name], and I'll be demonstrating the conditional logic implemented in the Aqua-Alert project."
+- "Today, we're looking at `conditional_logic_demo.py`, a script that uses Python's if-elif-else structures and logical operators to make data-driven decisions."
+
+### 2. Show the Code (60 Seconds)
+- **Open `conditional_logic_demo.py`**: "As you can see, the script is organized to demonstrate four key concepts."
+- **Point to Basic 'if'**: "The first part checks if the water level exceeds 80%. If true, it prints a critical alert."
+- **Point to 'if-else'**: "The second part compares the sensor status string. If it's 'active', it confirms monitoring; otherwise, it warns the system is offline."
+- **Point to 'if-elif-else'**: "The third part uses multiple branches to categorize rainfall rates into Critical, Heavy, Moderate, or Light rainfall."
+- **Point to Logical Operators**: "Finally, we use `and`, `or`, and `not` to combine conditions. For example, we check if high humidity **and** heavy rainfall are occurring simultaneously."
+- **Run the script**: "I'll now run the script from the terminal using `python conditional_logic_demo.py` to show the logic in action."
+
+### 3. Scenario-Based Reasoning (Mandatory) (30 Seconds)
+- **Scenario**: "A condition in your code always evaluates to False, even when you expect it to be True. What common mistakes could cause this, and how would you debug and fix the issue?"
+- **Answer**: "This can happen for several reasons. First, **data type mismatch**—like comparing a string `'85'` to a number `80`. Second, using the wrong **comparison operator** (e.g., `>` instead of `<`). Third, **incorrect logic**—using `and` when I should have used `or`, which makes the condition too restrictive. To debug this, I'd use `print()` statements to check the actual variable values and types just before the condition, and then I'd simplify the condition to test its parts individually."
+
+---
+
+## Key Concepts Covered
+- **Comparison Operators**: `==`, `!=`, `<`, `>`, `<=`, `>=`.
+- **Logical Operators**: `and`, `or`, `not`.
+- **Indentation**: Ensuring Python's block-based structure is correctly implemented.
+- **Condition Order**: Placing more specific conditions (like `elif rainfall > 30`) before broader ones.
