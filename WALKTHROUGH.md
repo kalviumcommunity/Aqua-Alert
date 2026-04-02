@@ -183,3 +183,67 @@ Use this structure for your submission:
 - Update loop variables explicitly in `while` loops.
 - Prefer readable loop conditions over clever shortcuts.
 - Test with small examples before scaling up.
+
+---
+
+# Functions (Define and Call) - Milestone Walkthrough
+
+This section covers writing reusable Python functions in **Aqua-Alert** through `functions_demo.py`.
+
+## Why Functions Matter
+Functions let you write logic once and reuse it safely.
+
+In Aqua-Alert, functions help us:
+- **Reduce repetition** by reusing alert and calculation logic
+- **Improve readability** by splitting code into focused tasks
+- **Debug faster** by testing behavior one function at a time
+
+## Running the Script
+To run the functions milestone script from your terminal:
+```bash
+python functions_demo.py
+```
+
+---
+
+## 📽️ Video Walkthrough Script (~2 Minutes)
+
+Use this structure for your submission:
+
+### 1. Introduction (20-30 Seconds)
+- "Hi, I'm [Your Name], and I'll be demonstrating function usage in Python using the Aqua-Alert project."
+- "This milestone focuses on defining functions, calling them, passing arguments, and understanding basic scope."
+
+### 2. Defining a Function (25-35 Seconds)
+- **Open `functions_demo.py`** and point to function definitions.
+- Explain: "Here I define small, single-purpose functions using the `def` keyword, such as risk scoring and alert display."
+- Mention: "Each function has a clear name and focused responsibility."
+
+### 3. Calling Functions and Passing Arguments (30-40 Seconds)
+- Point to `main()` and the function calls.
+- Explain: "I call functions by name and pass required arguments, for example rainfall and water-level values into the scoring function."
+- Mention execution flow: "After each function completes, control returns to `main()`."
+
+### 4. Parameters and Reusability (20-30 Seconds)
+- Point to `show_alert_message(region, severity)`.
+- Explain: "Because this function uses parameters, I can reuse it for different regions and severity levels without rewriting code."
+
+### 5. Scope Basics + Scenario Reasoning (20-30 Seconds)
+- Point to `scope_demo()` and global variable usage.
+- Explain: "The local variable exists only inside the function, while the global variable is visible outside."
+- **Scenario response**: "If I get a variable error, I check whether that variable was defined inside another function and therefore out of scope."
+
+---
+
+## Assignment Checklist Coverage
+- ✅ Define functions with `def`
+- ✅ Call functions to execute reusable logic
+- ✅ Pass arguments into functions
+- ✅ Demonstrate basic local vs global scope behavior
+- ✅ Print outputs to observe function flow
+
+## Best Practices to Keep
+- Keep functions small and focused.
+- Use descriptive function and parameter names.
+- Return values when a result is needed; print only for user-facing output.
+- Avoid unnecessary global variables to reduce side effects.
