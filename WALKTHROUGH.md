@@ -119,3 +119,67 @@ Use this structure for your third video submission:
 - **Logical Operators**: `and`, `or`, `not`.
 - **Indentation**: Ensuring Python's block-based structure is correctly implemented.
 - **Condition Order**: Placing more specific conditions (like `elif rainfall > 30`) before broader ones.
+
+---
+
+# Iteration (for and while Loops) - Milestone Walkthrough
+
+This section covers the use of iterative control flow in the **Aqua-Alert** project through `loops_demo.py`.
+
+## Why Iteration Matters
+Loops help us avoid repetitive code and process data in a scalable, readable way.
+
+In Aqua-Alert, loops are useful for:
+- **Repeated checks** of sensor states over time
+- **Processing collections** of districts or readings
+- **Condition-based monitoring** where execution continues until a state changes
+
+## Running the Script
+To run the iteration milestone script from your terminal:
+```bash
+python loops_demo.py
+```
+
+---
+
+## 📽️ Video Walkthrough Script (~2 Minutes)
+
+Use this structure for your submission:
+
+### 1. Introduction (20-30 Seconds)
+- "Hi, I'm [Your Name], and I'll be demonstrating Python iteration using `for` and `while` loops in the Aqua-Alert project."
+- "This script shows how to repeat logic safely and clearly when working with simple data collections."
+
+### 2. for Loop Demonstration (30-40 Seconds)
+- **Open `loops_demo.py`** and point to `for_loop_examples()`.
+- Explain: "This section shows iteration over a known range and over a list of districts."
+- Mention: "`for` loops are ideal when the sequence is known, like a range or list."
+
+### 3. while Loop Demonstration (30-40 Seconds)
+- Point to `while_loop_examples()`.
+- Explain: "This loop continues while a condition is true and stops when the reservoir level reaches the target."
+- Mention variable updates: "The loop variable changes each iteration, which guarantees termination."
+
+### 4. break/continue and Flow Control (20-30 Seconds)
+- Point to `loop_control_examples()`.
+- Explain: "`continue` skips missing values, and `break` exits early when a critical value is detected."
+
+### 5. Infinite Loop Prevention + Scenario Reasoning (20-30 Seconds)
+- Point to `infinite_loop_safety_examples()`.
+- Explain: "An infinite loop happens when loop conditions never change. Here we prevent that with a clear stop condition."
+- **Scenario response**: "If my loop does not stop, I first check whether the loop variable is being updated correctly and whether the condition can become false."
+
+---
+
+## Assignment Checklist Coverage
+- ✅ `for` loop over range and list
+- ✅ `while` loop with condition-based repetition
+- ✅ Use of `break` and `continue`
+- ✅ Infinite loop avoidance and correction strategy
+- ✅ Console output for observing loop behavior
+
+## Best Practices to Keep
+- Keep loop bodies focused on one purpose.
+- Update loop variables explicitly in `while` loops.
+- Prefer readable loop conditions over clever shortcuts.
+- Test with small examples before scaling up.
