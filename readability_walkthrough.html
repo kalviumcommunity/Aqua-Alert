@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Readability and Intent Walkthrough</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1e1e2e;
+            color: #cdd6f4;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+        h1 {
+            color: #89b4fa;
+            text-align: center;
+        }
+        h2 {
+            color: #f38ba8;
+            margin-top: 40px;
+            border-bottom: 2px solid #585b70;
+            padding-bottom: 10px;
+        }
+        pre {
+            background-color: #181825;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #313244;
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+        .highlight {
+            color: #a6e3a1;
+            font-weight: bold;
+        }
+        .var-name {
+            color: #f9e2af;
+            font-weight: bold;
+        }
+        .keyword {
+            color: #cba6f7;
+        }
+        .comment {
+            color: #6c7086;
+            font-style: italic;
+        }
+        .step {
+            background-color: #313244;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-left: 5px solid #89b4fa;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Code Readability & PEP 8 Walkthrough</h1>
+        
+        <div class="step">
+            <p>Welcome to the Readability Walkthrough! Here we will examine why Python code should be written for humans, not just for the interpreter. We'll look at variable naming conventions (PEP 8 snake_case) and purposeful commenting.</p>
+        </div>
+
+        <h2>1. Descriptive Variable Names vs Vague Ones</h2>
+        <div class="step">
+            <p>Instead of using vague names like <span class="var-name">x</span>, <span class="var-name">lst</span>, or <span class="var-name">calc</span>, we use descriptive, context-specific names. PEP 8 specifies we should use lowercase words separated by underscores (<span class="highlight">snake_case</span>).</p>
+        </div>
+        <pre><span class="comment"># BAD:</span>
+<span class="keyword">def</span> calc(lst):
+    t = sum(lst)
+    return t / len(lst)
+
+<span class="comment"># GOOD:</span>
+<span class="keyword">def</span> <span class="highlight">calculate_average_rainfall</span>(<span class="var-name">daily_rainfall_amounts</span>):
+    <span class="var-name">total_rainfall_mm</span> = sum(<span class="var-name">daily_rainfall_amounts</span>)
+    <span class="var-name">number_of_days</span> = len(<span class="var-name">daily_rainfall_amounts</span>)
+    <span class="keyword">return</span> <span class="var-name">total_rainfall_mm</span> / <span class="var-name">number_of_days</span></pre>
+
+        <h2>2. Meaningful Comments Explaining "Why"</h2>
+        <div class="step">
+            <p>Comments should rarely restate what the code does—Python is usually readable enough for that. Instead, add comments that explain <strong>intent</strong>, safeguards, or assumptions (the "why"!).</p>
+        </div>
+        <pre><span class="keyword">def</span> calculate_average_rainfall(daily_rainfall_amounts):
+    total_rainfall_mm = sum(daily_rainfall_amounts)
+    number_of_days = len(daily_rainfall_amounts)
+    
+    <span class="comment"># GOOD COMMENT: Explains WHY this check exists (Intent and Safety)</span>
+    <span class="comment"># Prevent division by zero if the dataset is empty</span>
+    <span class="keyword">if</span> number_of_days == 0:
+        <span class="keyword">return</span> 0.0
+        
+    <span class="keyword">return</span> total_rainfall_mm / number_of_days</pre>
+
+        <h2>3. Clean Format & Execution Context</h2>
+        <div class="step">
+            <p>Following PEP 8, we ensure consistency. The main logic execution should be distinct, properly spaced, and readable like a natural language sentence.</p>
+        </div>
+        <pre><span class="comment"># Simulated daily rainfall data in millimeters over a 5-day period</span>
+<span class="var-name">recent_rainfall_data</span> = [12.5, 8.0, 0.0, 22.1, 5.4]
+    
+<span class="comment"># The critical threshold at which flood warnings are triggered</span>
+<span class="var-name">flood_warning_threshold_mm</span> = 15.0
+
+<span class="comment"># Notice how this reads cleanly without guessing what the values represent.</span>
+<span class="var-name">average_recent_rainfall</span> = calculate_average_rainfall(<span class="var-name">recent_rainfall_data</span>)
+<span class="var-name">flood_risk_detected</span> = evaluate_flood_risk(<span class="var-name">average_recent_rainfall</span>, <span class="var-name">flood_warning_threshold_mm</span>)</pre>
+        
+        <h2>4. Conclusion</h2>
+        <div class="step">
+            <p>By enforcing <strong>consistent snake_case naming</strong>, choosing <strong>descriptive vocabulary</strong> (`flood_risk_detected` instead of `flag`), and writing <strong>purposeful comments</strong> outlining edge cases, the codebase remains permanently review-friendly.</p>
+        </div>
+        
+        <div style="height: 50vh;"></div> <!-- empty space for scrolling effect padding -->
+    </div>
+</body>
+</html>
