@@ -247,3 +247,70 @@ Use this structure for your submission:
 - Use descriptive function and parameter names.
 - Return values when a result is needed; print only for user-facing output.
 - Avoid unnecessary global variables to reduce side effects.
+
+---
+
+# NumPy Shape, Dimensions, and Indexing - Milestone Walkthrough
+
+This section covers NumPy fundamentals for understanding how arrays are structured in `numpy_shape_indexing_demo.py`.
+
+## Why This Matters
+Before slicing, reshaping, or advanced operations, you must understand:
+- **Shape**: how values are arranged
+- **Dimensions**: how many axes exist
+- **Index positions**: how to access values safely
+
+This prevents common beginner bugs like out-of-range errors and row/column confusion.
+
+## Running the Script
+To run this milestone script from your terminal:
+```bash
+python numpy_shape_indexing_demo.py
+```
+
+---
+
+## Video Walkthrough Script (~2 Minutes)
+
+Use this structure for your submission:
+
+### 1. Introduction (20-30 Seconds)
+- "Hi, I'm [Your Name], and I'll demonstrate NumPy array structure using shape, dimensions, and indexing."
+- "This milestone focuses on understanding layout before moving to slicing and reshaping."
+
+### 2. 1D and 2D Shape Demonstration (30-40 Seconds)
+- Open `numpy_shape_indexing_demo.py` and point to `section_shape_basics()`.
+- Explain: "For a 1D array, shape like `(5,)` means five elements on one axis."
+- Explain: "For a 2D array, shape like `(3, 4)` means 3 rows and 4 columns."
+
+### 3. Dimensions (`ndim`) Explanation (20-30 Seconds)
+- Point to `section_dimensions()`.
+- Explain: "`ndim` tells how many dimensions an array has: 1D, 2D, or 3D."
+- Mention: "In 2D arrays, axis 0 corresponds to rows and axis 1 to columns."
+
+### 4. Indexing Logic Demo (30-40 Seconds)
+- Point to `section_indexing()`.
+- Explain: "Indexing is zero-based, so the first position is index 0."
+- Show examples: 1D indexing (`arr[index]`) and 2D indexing (`array[row, column]`).
+- Emphasize: "Rows come before columns in 2D indexing."
+
+### 5. Layout Visualization + Common Mistake (20-30 Seconds)
+- Point to `section_visualize_layout()` and `section_common_mistakes()`.
+- Explain: "The index map helps connect positions like `[row, col]` to actual values."
+- Scenario response: "If I hit an index error, I first check the array shape and verify the index is within bounds."
+
+---
+
+## Assignment Checklist Coverage
+- ✅ 1D array and its shape
+- ✅ 2D array and its shape
+- ✅ Dimension checks using `ndim`
+- ✅ Element access using index positions
+- ✅ Clear indexing explanation for rows and columns
+- ✅ Basic safe-access mindset to avoid index bugs
+
+## Best Practices to Keep
+- Always inspect `shape` before indexing.
+- Remember indexing starts at zero.
+- In 2D arrays, access values as `[row, column]`.
+- Use small arrays first to build indexing intuition.
