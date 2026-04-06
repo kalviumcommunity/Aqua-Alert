@@ -314,3 +314,68 @@ Use this structure for your submission:
 - Remember indexing starts at zero.
 - In 2D arrays, access values as `[row, column]`.
 - Use small arrays first to build indexing intuition.
+
+---
+
+# NumPy Basic Math Operations - Milestone Walkthrough
+
+This section covers basic arithmetic operations in NumPy using `numpy_math_operations_demo.py`.
+
+## Why This Matters
+NumPy lets you apply formulas to entire arrays at once.
+This makes numerical code:
+- concise
+- easier to read
+- more reliable than manual loops for simple array math
+
+## Running the Script
+To run this milestone script from your terminal:
+```bash
+python numpy_math_operations_demo.py
+```
+
+---
+
+## Video Walkthrough Script (~2 Minutes)
+
+Use this structure for your submission:
+
+### 1. Introduction (20-30 Seconds)
+- "Hi, I'm [Your Name], and I'll demonstrate basic mathematical operations on NumPy arrays."
+- "This milestone focuses on element-wise behavior, scalar math, and common beginner mistakes."
+
+### 2. Create Arrays and Show Element-Wise Operations (35-45 Seconds)
+- Open `numpy_math_operations_demo.py` and point to `section_elementwise_operations()`.
+- Explain: "I create two arrays with the same shape and apply addition, subtraction, multiplication, and division."
+- Mention: "NumPy applies each operation to corresponding positions in both arrays."
+
+### 3. Demonstrate Scalar Operations (25-35 Seconds)
+- Point to `section_scalar_operations()`.
+- Explain: "When I add or multiply by a scalar, NumPy applies that operation to every element in the array."
+- Show at least one example such as `values * 3`.
+
+### 4. Compare Python Lists vs NumPy Arrays (25-35 Seconds)
+- Point to `section_list_vs_numpy()`.
+- Explain: "List addition concatenates, but array addition performs element-wise math."
+- Explain: "List multiplication repeats elements, while array multiplication scales numerically."
+
+### 5. Common Mistakes + Shape Awareness (20-30 Seconds)
+- Point to `section_common_mistakes()`.
+- Explain: "Array math requires compatible shapes for element-wise operations."
+- Scenario response: "If I see a shape-related error, I check each array's shape and make sure they are compatible."
+
+---
+
+## Assignment Checklist Coverage
+- ✅ Creating NumPy arrays
+- ✅ Performing basic arithmetic operations
+- ✅ Demonstrating scalar operations
+- ✅ Explaining element-wise behavior
+- ✅ Showing list vs array math differences
+- ✅ Highlighting common shape and dtype pitfalls
+
+## Best Practices to Keep
+- Prefer NumPy operations over loops for simple array math.
+- Verify shapes before combining arrays.
+- Keep demonstration arrays small and numeric for clarity.
+- Print outputs clearly to confirm behavior.
