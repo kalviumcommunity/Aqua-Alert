@@ -1,45 +1,45 @@
-# Video Walkthrough Plan: DataFrame Shape and Column Data Types (~2 Minutes)
+# Video Walkthrough Plan: DataFrame Indexing and Slicing (~2 Minutes)
 
-This plan is aligned to the milestone requirements: shape inspection, row/column interpretation, dtype inspection, and early type-issue detection.
+This plan is aligned to the milestone requirements: column selection, row selection by position and label, and combined row-column selection.
 
 ## 1. Introduction (15-20 Seconds)
-- **Action**: Show your IDE with `inspect_dataframe.py` and terminal.
-- **Script**: "Hello, I am [Your Name]. In this milestone, I will inspect DataFrame shape and column data types in Pandas to understand dataset structure before any cleaning or analysis."
+- **Action**: Show your IDE with `dataframe_selection_demo.py` and terminal.
+- **Script**: "Hello, I am [Your Name]. In this milestone, I will demonstrate selecting rows and columns in Pandas using indexing and slicing."
 
-## 2. Inspecting Shape (25-30 Seconds)
-- **Action**: Run `python inspect_dataframe.py` and point to the shape output.
+## 2. Selecting Columns by Name (25-30 Seconds)
+- **Action**: Run `python dataframe_selection_demo.py` and point to the first section.
 - **Key Points**:
-    - Explain that `shape` returns `(rows, columns)`.
-    - Clarify that rows are observations/records.
-    - Clarify that columns are variables/features.
-- **Script**: "The shape tells me exactly how much data I have. Here, the first value is the number of records, and the second is the number of features."
+    - Show single column selection: `df['ph_level']`.
+    - Show multiple columns selection: `df[['location', 'ph_level', 'temperature_c']]`.
+    - Explain result type difference: Series vs DataFrame.
+- **Script**: "Selecting by column names is the most common operation. A single column returns a Series, while multiple columns return a DataFrame."
 
-## 3. Explaining Rows vs Columns (20-25 Seconds)
-- **Action**: Point to the printed record count, feature count, and column names.
+## 3. Selecting Rows by Position with iloc (25-30 Seconds)
+- **Action**: Point to `df.iloc[2]` and `df.iloc[1:4]` output.
 - **Key Points**:
-    - Records = how many measured entries exist.
-    - Features = what attributes are available for each record.
-- **Script**: "This helps me set expectations. If record count is wrong, I may have loading issues; if columns are missing, my next steps may fail."
+    - `iloc` uses zero-based positions.
+    - Slices are start-inclusive and stop-exclusive.
+- **Script**: "I use iloc when I want row positions. For example, row index 2 is the third row, and slice 1:4 returns rows 1, 2, and 3."
 
-## 4. Inspecting Column Data Types (30-35 Seconds)
-- **Action**: Highlight the dtype section in terminal output.
+## 4. Selecting Rows by Label with loc (25-30 Seconds)
+- **Action**: Point to `set_index('sample_id')` and label-based outputs.
 - **Key Points**:
-    - Identify numeric columns.
-    - Identify text/categorical columns.
-    - Mention why types matter for valid operations.
-- **Script**: "Data types control what operations I can perform. Numeric aggregations need numeric dtypes. Text columns should not be used for numeric calculations unless converted intentionally."
+    - `loc` uses explicit index labels.
+    - Label slicing is inclusive on both ends.
+- **Script**: "After setting sample_id as the index, I can select rows by labels. With loc, label ranges include both the start and end labels."
 
-## 5. Detecting Type-Related Issues Early (20-25 Seconds)
-- **Action**: Point to the type-risk check output and missing-value check.
+## 5. Selecting Rows and Columns Together (20-25 Seconds)
+- **Action**: Point to combined selections using `iloc` and `loc`.
 - **Key Points**:
-    - Numeric-looking values stored as object can break calculations.
-    - Missing values can affect type behavior and downstream logic.
-- **Script**: "I check object columns for numeric-like content and review missing values early. This prevents subtle bugs and avoids discovering dtype problems late in analysis."
+    - Show positional combined subset.
+    - Show label-based combined subset.
+    - Mention avoiding chained indexing by selecting in one expression.
+- **Script**: "Combined selection helps extract precise subsets safely. I specify rows and columns together in one expression for clarity and reliability."
 
 ## 6. Closing (10-15 Seconds)
-- **Script**: "That completes the milestone: I inspected shape, interpreted rows vs columns, reviewed dtypes, and flagged type risks before any transformation."
+- **Script**: "That completes the milestone: I selected columns, selected rows by position and label, and combined row-column selections with clear and intentional logic."
 
 ## Recording Checklist
-- Keep video around 2 minutes.
-- Ensure terminal text is readable.
-- Keep cursor movement intentional and follow the script sections.
+- Keep the video around 2 minutes.
+- Keep terminal output readable.
+- Briefly explain when to use each approach: column names, iloc, and loc.
