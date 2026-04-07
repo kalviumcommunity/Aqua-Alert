@@ -1,33 +1,39 @@
-# Video Walkthrough Plan: CSV Loading and Inspection
+# Video Walkthrough Plan: Inspecting DataFrames with Pandas
 
-This document outlines a clear script and structure for your ~2-minute video walkthrough.
+This document outlines the script and structure for your ~2-minute video walkthrough for the Data Inspection milestone.
 
 ## 1. Introduction (15 Seconds)
-- **Action**: Show your face (if required) and the IDE with `csv_loading_demo.py` open.
-- **Script**: "Hi, I'm [Your Name], and in this milestone, I'll demonstrate how to safely load and inspect CSV data using Pandas in our Aqua-Alert project. We'll be using a sample water quality dataset."
+- **Action**: Show your face (if required) and the IDE with `inspect_dataframe.py` open.
+- **Script**: "Hello! I'm [Your Name], and today I'll demonstrate how to inspect a Pandas DataFrame using three essential methods: `head()`, `info()`, and `describe()`. This is a crucial step in ensuring data quality before any analysis."
 
-## 2. Demonstrating CSV Loading (30 Seconds)
-- **Action**: Highlight the `pd.read_csv()` line in the script.
-- **Point to emphasize**: Explain that we use `os.path.join()` for cross-platform compatibility and `pd.read_csv()` as the standard way to bring tabular data into a DataFrame.
-- **Script**: "Here, I'm using `pd.read_csv()` to import our `water_quality_samples.csv`. This converts the raw text file into a powerful Pandas DataFrame object."
+## 2. Previewing with head() (30 Seconds)
+- **Action**: Run the `inspect_dataframe.py` script and highlight the output of `df.head()`.
+- **Key Points**:
+    - Shows the first few rows (default 5).
+    - Visual check for headers and data alignment.
+- **Script**: "First, we use `.head()` to preview our data. This gives us a quick look at the first few rows. I'm checking that the column headers like 'ph_level' and 'location' are correctly aligned with their values."
 
-## 3. Data Inspection (45 Seconds)
-- **Action**: Run the script and show the output in the terminal.
-- **Key Inspection Steps**:
-    1. **`.head()`**: Shows the first few rows to verify headers and data alignment.
-    2. **`.shape`**: Confirms the number of rows and columns.
-    3. **`.columns`**: Lists all column names.
-    4. **`.info()`**: Shows data types and non-null counts.
-- **Script**: "After loading, inspection is critical. I use `.head()` to preview the data, `.shape` to check the dataset's size, and `.info()` to ensure data types were correctly inferred. For example, our 'pH' level is correctly identified as a float."
+## 3. Inspecting Structure with info() (30 Seconds)
+- **Action**: Scroll to the `df.info()` output in the terminal.
+- **Key Points**:
+    - RangeIndex/Entry count.
+    - Data types (Dtype).
+    - Non-null counts.
+- **Script**: "Next, we use `.info()`. This is arguably the most important inspection method. It tells us the data type of every column and identifies missing values. Here, we can see that 'sample_id' is an object (string), while 'ph_level' is a float64."
 
-## 4. Why Inspection Matters (15 Seconds)
-- **Script**: "Most downstream analysis errors start with bad data loading. By checking the data immediately, we ensure our filters, calculations, and visualizations are built on a solid foundation."
+## 4. Summarizing with describe() (30 Seconds)
+- **Action**: Highlight the `df.describe()` output.
+- **Key Points**:
+    - Central tendency (mean, median).
+    - Dispersion (min, max, std).
+    - Percentiles.
+- **Script**: "Finally, we use `.describe()` to get a statistical summary of our numeric data. This shows the mean, min, max, and quartiles. It's a great way to quickly catch outliers or see the distribution of our water quality metrics."
 
 ## 5. Scenario-Based Reasoning (15 Seconds)
-- **Scenario**: *You load a CSV file, but the data appears misaligned or columns are not what you expected. What steps would you take to diagnose the issue?*
-- **Response**: "If the data looks misaligned, I would first check the **delimiter** (e.g., is it a comma, semicolon, or tab?). Use the `sep` parameter in `read_csv` if it's not a comma. Second, I'd check the **header row**—does the CSV actually have headers? Last, I'd verify the **raw file structure** for missing values or unquoted text that might be breaking the column alignment."
+- **Scenario**: *You begin analysis and later discover that a numeric column was actually loaded as a string. How could using info() earlier have helped prevent this issue, and what would you look for during inspection?*
+- **Response**: "Using `.info()` early would have flagged this immediately. I would look at the 'Dtype' column; if a column like 'ph_level' shows up as an **object** instead of a **float64**, I know there's a problem—likely a non-numeric character in the data. Catching this early prevents calculation errors later in the pipeline."
 
 ## Tips for Recording
 - Keep it concise; aim for exactly 2 minutes.
-- Speak clearly and highlight the specific lines of code as you mention them.
-- Ensure the terminal output is readable in the video.
+- Speak clearly and point to the terminal output as you discuss it.
+- Ensure the font size in your IDE and terminal is large enough to be readable.
