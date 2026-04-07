@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vectorization Walkthrough</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            background-color: #252526;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+        }
+        h1 {
+            color: #569cd6;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #4ec9b0;
+            margin-top: 30px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+        p {
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+        .code-block {
+            background-color: #1e1e1e;
+            border: 1px solid #333;
+            border-left: 4px solid #569cd6;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; }
+        .function { color: #dcdcaa; }
+        
+        .step {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            display: none;
+        }
+        .step.active {
+            opacity: 1;
+            transform: translateY(0);
+            display: block;
+        }
+        .highlight {
+            color: #ce9178;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>NumPy Vectorization Walkthrough</h1>
+
+    <div id="step1" class="step active">
+        <h2>1. The Goal</h2>
+        <p>In this demonstration, we are comparing two approaches to executing element-wise numerical operations using NumPy arrays: a standard <span class="highlight">Python Loop</span> vs a <span class="highlight">Vectorized Operation</span>.</p>
+        <p>Why do we care? Python loops are slow for mathematical operations. Vectorization delegates the calculations to optimized C code, making it drastically faster and more readable.</p>
+    </div>
+
+    <div id="step2" class="step">
+        <h2>2. Loop-Based Approach</h2>
+        <p>Here is what a traditional loop in Python looks like when doing element-wise logic:</p>
+        <div class="code-block">
+<pre><span class="keyword">def</span> <span class="function">loop_based_operation</span>(a, b):
+    result = np.zeros_like(a)
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(<span class="function">len</span>(a)):
+        result[i] = a[i] * b[i] + <span class="keyword">5</span>
+    <span class="keyword">return</span> result</pre>
+        </div>
+        <p>While correct, this forces Python to individually evaluate each element via the interpreter.</p>
+    </div>
+
+    <div id="step3" class="step">
+        <h2>3. Vectorized Approach</h2>
+        <p>Now, let's look at the <span class="highlight">Vectorized</span> version:</p>
+        <div class="code-block">
+<pre><span class="keyword">def</span> <span class="function">vectorized_operation</span>(a, b):
+    <span class="comment"># Clean, concise, and incredibly fast</span>
+    <span class="keyword">return</span> a * b + <span class="keyword">5</span></pre>
+        </div>
+        <p>NumPy inherently understands that <code>a</code> and <code>b</code> are multidimensional arrays. We just express the math directly!</p>
+    </div>
+
+    <div id="step4" class="step">
+        <h2>4. Verification</h2>
+        <p>We ran both functions on the same inputs:</p>
+        <div class="code-block" style="border-left-color: #4ec9b0;">
+<pre>Array a: [1 2 3 4 5]
+Array b: [10 20 30 40 50]
+
+Loop result:       [15 45 95 165 255]
+Vectorized result: [15 45 95 165 255]</pre>
+        </div>
+        <p style="color: #4ec9b0; font-weight: bold; text-align: center; font-size: 1.3em;">✅ Outcomes match exactly.</p>
+        <p>Vectorization provides the same result, cleaner code, and optimal performance!</p>
+    </div>
+
+</div>
+
+<script>
+    let currentStep = 1;
+    const totalSteps = 4;
+
+    function nextStep() {
+        if (currentStep < totalSteps) {
+            document.getElementById('step' + currentStep).classList.remove('active');
+            currentStep++;
+            document.getElementById('step' + currentStep).classList.add('active');
+        } else {
+            document.getElementById('step1').innerHTML = "<h2>Thank you for watching!</h2><p>This concludes the vectorization demonstration. The PR has been updated with the source code.</p>";
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step3').style.display = 'none';
+            document.getElementById('step4').style.display = 'none';
+            document.getElementById('step1').classList.add('active');
+            currentStep = 1; // reset for loop if needed
+        }
+    }
+
+    // Automatically transition steps every 8 seconds for the video recording
+    setInterval(nextStep, 8000);
+</script>
+
+</body>
+</html>
