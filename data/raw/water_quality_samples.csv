@@ -1,0 +1,6 @@
+sample_id,timestamp,location,ph_level,temperature_c,turbidity_ntu,dissolved_oxygen_mg_l
+WQS-001,2024-03-20 08:30:00,North Reservoir,7.2,18.5,1.2,8.4
+WQS-002,2024-03-20 09:15:00,South Basin,6.8,19.2,2.5,7.9
+WQS-003,2024-03-20 10:45:00,East Inlet,7.5,17.8,0.8,9.1
+WQS-004,2024-03-20 12:00:00,West Outlet,7.1,20.5,3.1,7.2
+WQS-005,2024-03-20 13:30:00,Central Dock,7.3,19.8,1.5,8.0
