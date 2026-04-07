@@ -1,0 +1,5 @@
+sensor_id,location,pH,temperature_c
+S-101,Lake Zone A,7.2,22.5
+S-102,Lake Zone B,6.9,21.8
+S-103,River Point C,7.4,23.1
+S-104,River Point D,7.1,22.0
