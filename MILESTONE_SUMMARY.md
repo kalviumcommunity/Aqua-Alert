@@ -1,29 +1,33 @@
-# Milestone Summary: CSV Loading and Data Inspection
+# Milestone Summary: DataFrame Shape and Column Data Types
 
 ## Overview
-This milestone demonstrated the fundamental process of loading CSV data into Pandas DataFrames and performing essential first-step inspections. Correct loading is the foundation of any data analysis, ensuring accuracy and reliability in all subsequent steps.
+This milestone focused on understanding DataFrame structure before cleaning or analysis. The key deliverable was intentional inspection of shape and column data types to prevent downstream errors.
 
 ## Completed Tasks
-- **Created a sample CSV dataset**: `data/raw/water_quality_samples.csv` contains realistic water monitoring data.
-- **Developed a loading script**: `csv_loading_demo.py` provides a clean, documented template for safe data ingestion.
-- **Implemented key inspection methods**:
-    - `pd.read_csv()` for data import.
-    - `.head()` for previewing data.
-    - `.shape` for structure verification.
-    - `.columns` for identifying headers.
-    - `.info()` for data type assessment.
-    - `.describe()` for spotting data anomalies early.
+- Loaded a DataFrame from `data/raw/water_quality_samples.csv`.
+- Inspected DataFrame shape using `.shape`.
+- Interpreted rows as observations and columns as variables/features.
+- Inspected column data types with `.dtypes`.
+- Added basic type-risk checks to flag object columns that may contain numeric-looking values.
+- Checked for missing values that can influence type behavior.
 
-## Why Each Step Matters
-1. **`.head()`**: Immediately catches alignment or header issues.
-2. **`.shape`**: Ensures the expected amount of data was loaded.
-3. **`.info()`**: Catches columns that should be numeric but were loaded as strings (often due to special characters like '$' or '%').
-4. **`.describe()`**: Quickly spots outliers or unrealistic data entries before analysis begins.
+## Key Learning Outcomes
+1. **Shape clarity**: Interpreted the shape tuple correctly as `(rows, columns)`.
+2. **Row vs column understanding**: Distinguished number of records from number of features.
+3. **Type awareness**: Recognized numeric vs text/categorical columns.
+4. **Early issue detection**: Identified columns that may require deeper review before transformations.
 
-## Repository Changes
-- New branch: `feat/csv-loading`
-- New files:
-    - `data/raw/water_quality_samples.csv` (Sample Dataset)
-    - `csv_loading_demo.py` (Implementation Proof)
-    - `video_walkthrough_plan.md` (Preparation for Part B)
-    - `PR_SUBMISSION_GUIDE.md` (Steps for Part A)
+## Why This Matters
+- Prevents assumptions about dataset size.
+- Avoids invalid numeric operations on object/string columns.
+- Surfaces type-related risks before they break analysis workflows.
+- Makes future cleaning steps intentional and auditable.
+
+## Implementation Used
+- Script: `inspect_dataframe.py`
+- Core methods/concepts:
+    - `pd.read_csv()`
+    - `df.shape`
+    - `df.dtypes`
+    - `df.isna().sum()`
+    - high-level dtype classification and numeric-like object detection (inspection only)
