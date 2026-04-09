@@ -6,39 +6,23 @@ Local governments often fail to anticipate rainfall-induced flooding because his
 ## Project Overview
 Aqua-Alert is a Data Science initiative aimed at leveraging predictive modelling to anticipate rainfall-induced flooding. By utilizing historical datasets that traditionally remain unused, this project helps local districts plan and deploy early warnings effectively.
 
-## Modular ML Workflow
+## Project Setup Instructions
 
-The repository now includes a structured `src/` layout that separates preprocessing, feature engineering, training, evaluation, and prediction.
+This section provides a clear, step-by-step guide to setting up the environment and running the project reliably on any machine.
 
-### Run training and evaluation
+### Prerequisites
+- **Python Version**: Python 3.9 or higher (Tested on 3.13.12)
+- **Git**: For cloning the repository
 
-```bash
-python src/main.py
-```
+### 1. Create a Fresh Virtual Environment
+To ensure project dependencies are isolated and do not conflict with your system-wide packages, create a clean virtual environment:
 
-This trains a model on a reproducible synthetic dataset, evaluates it on a held-out split, and saves artifacts to `models/`.
-
-### Run prediction independently
-
-```bash
-python src/predict.py
-```
-
-This loads the saved artifacts and produces a prediction without refitting the model or preprocessing step.
-
-## Environment Setup
-
-### Python Version
-- Python 3.9 or higher is required.
-
-### 1. Create the Virtual Environment
-To create a clean, isolated environment for the project, run:
 ```bash
 python -m venv .venv
 ```
 
-### 2. Activate the Environment
-Before installing dependencies or running the project, activate the environment:
+### 2. Activate the Virtual Environment
+Activate the environment before installing dependencies or running scripts.
 
 **On Windows:**
 ```bash
@@ -51,19 +35,35 @@ source .venv/bin/activate
 ```
 
 ### 3. Install Dependencies
-Once the environment is activated, install the required ML libraries:
+Install all required libraries with pinned versions using the `requirements.txt` file:
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Verify Installation
-To check if the packages are correctly installed inside the environment:
+### 4. Run the Training Pipeline
+Execute the main script to load data, perform feature engineering, train the model, and evaluate performance:
+
 ```bash
-pip list
+python src/main.py
+```
+This script evaluates the model on a test set and displays key metrics (Accuracy, Confusion Matrix, Classification Report).
+
+### 5. Run Prediction
+To demonstrate inference with saved model artifacts, run:
+
+```bash
+python src/predict.py
 ```
 
-### 5. Deactivate
-When you are done working, you can return to your system's global Python:
-```bash
-deactivate
-```
+## Reproducibility Verification
+This project has been tested in a clean environment to ensure all dependencies are correctly captured in `requirements.txt`. Version pinning is strictly enforced (`==`) to prevent "it works on my machine" issues caused by package updates.
+
+## Modular ML Workflow
+The repository includes a structured `src/` layout:
+- `data_preprocessing.py`: Logic for data ingestion and cleaning.
+- `feature_engineering.py`: Transformation and scaling logic.
+- `train.py`: Model fitting and artifact persistence.
+- `evaluate.py`: Performance metrics calculation.
+- `predict.py`: Independent inference pipeline.
+- `config.py`: Centralized configuration and constants.
