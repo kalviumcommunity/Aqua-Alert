@@ -1,0 +1,19 @@
+# Virtual environment
+.venv/
+venv/
+ENV/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Models and data artifacts
+models/*.joblib
+models/*.pkl
+data/processed/*.csv
+
+# VS Code
+.vscode/
