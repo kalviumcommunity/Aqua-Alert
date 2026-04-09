@@ -25,3 +25,45 @@ python src/predict.py
 ```
 
 This loads the saved artifacts and produces a prediction without refitting the model or preprocessing step.
+
+## Environment Setup
+
+### Python Version
+- Python 3.9 or higher is required.
+
+### 1. Create the Virtual Environment
+To create a clean, isolated environment for the project, run:
+```bash
+python -m venv .venv
+```
+
+### 2. Activate the Environment
+Before installing dependencies or running the project, activate the environment:
+
+**On Windows:**
+```bash
+.venv\Scripts\activate
+```
+
+**On macOS/Linux:**
+```bash
+source .venv/bin/activate
+```
+
+### 3. Install Dependencies
+Once the environment is activated, install the required ML libraries:
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Verify Installation
+To check if the packages are correctly installed inside the environment:
+```bash
+pip list
+```
+
+### 5. Deactivate
+When you are done working, you can return to your system's global Python:
+```bash
+deactivate
+```
