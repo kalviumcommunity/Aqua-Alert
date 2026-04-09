@@ -1,36 +1,30 @@
-"""Entry point for the Aqua-Alert ML workflow."""
+"""Entry point for the Aqua-Alert ML training workflow."""
 
-import argparse
 from pathlib import Path
+import sys
 
-from data_loader import load_data
-from evaluate import evaluate_model
-from model import train_model
-from preprocessing import preprocess_data
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
-
-def build_argument_parser() -> argparse.ArgumentParser:
-    """Create the command-line interface for the workflow."""
-    parser = argparse.ArgumentParser(description="Run the Aqua-Alert ML pipeline.")
-    parser.add_argument(
-        "--data-path",
-        type=Path,
-        default=None,
-        help="Optional CSV file to load instead of the synthetic dataset.",
-    )
-    return parser
+from src.config import FEATURE_COLUMNS
+from src.data_preprocessing import load_dataset, split_dataset
+from src.evaluate import evaluate_model
+from src.train import save_artifacts, train_model
 
 
-def run_pipeline(data_path: Path | None = None) -> dict:
-    """Execute the full machine learning workflow and return metrics."""
-    dataset = load_data(data_path)
-    X_train, X_test, y_train, y_test, feature_names = preprocess_data(dataset)
-    model = train_model(X_train, y_train)
-    metrics = evaluate_model(model, X_test, y_test)
+def run_pipeline() -> dict:
+    """Train, evaluate, and persist the model artifacts."""
+    dataset = load_dataset()
+    X_train, X_test, y_train, y_test = split_dataset(dataset)
+    model, preprocessor = train_model(X_train, y_train)
+    artifact_path = save_artifacts(model, preprocessor, FEATURE_COLUMNS)
+    metrics = evaluate_model(model, preprocessor, X_test, y_test)
 
-    print("--- Aqua-Alert ML Workflow ---")
+    print("--- Aqua-Alert Training Workflow ---")
     print(f"Dataset shape: {dataset.shape}")
-    print(f"Features used: {', '.join(feature_names)}")
+    print(f"Features used: {', '.join(FEATURE_COLUMNS)}")
+    print(f"Artifacts saved to: {artifact_path}")
     print(f"Accuracy: {metrics['accuracy']:.3f}")
     print("Confusion Matrix:")
     print(metrics["confusion_matrix"])
@@ -41,11 +35,10 @@ def run_pipeline(data_path: Path | None = None) -> dict:
 
 
 def main() -> None:
-    """Parse arguments and run the pipeline."""
-    parser = build_argument_parser()
-    args = parser.parse_args()
-    run_pipeline(args.data_path)
+    """Run the training workflow."""
+    run_pipeline()
 
 
 if __name__ == "__main__":
     main()
+
