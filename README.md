@@ -90,6 +90,35 @@ The repository includes a structured `src/` layout:
 - `persistence.py`: Saving and loading artifacts, reports, and logs.
 - `predict.py`: Independent inference pipeline.
 
+## Feature Distribution Analysis
+
+Before training any model, we systematically inspected the distributions of each feature to identify risks and determine necessary preprocessing.
+
+### Numerical Features
+
+- `ph_level`: Approximately normal but contains extreme outliers (e.g., 14.5 and -2.1) that violate physical constraints.
+- `conductivity_us_cm`: Highly right-skewed (exponential distributed). Mean is significantly higher than the median.
+- `turbidity_ntu`, `dissolved_oxygen_mg_l`, `temperature_c`, `chlorine_mg_l`: Show approximately symmetric, bell-shaped distributions.
+
+### Categorical Features
+
+- `sensor_type`: Highly imbalanced. `Industrial` and `Residential` levels dominate, while `Rare_Specialized` is a rare class (< 2% of samples).
+- `location_category`: Contains inconsistent labels like "urban" (lowercase) and "RURAL " (extra whitespace).
+
+### Target Comparison Insights
+
+- `conductivity_us_cm` shows different median values across target classes, suggesting a potentially predictive signal.
+- `ph_level` distribution overlaps heavily across classes, requiring normalization and outlier handling.
+
+### Preprocessing Decisions
+
+1. **Log Transformation**: Required for `conductivity_us_cm` to stabilize variance.
+2. **Outlier Clipping**: extreme values in `ph_level` must be capped.
+3. **Categorical Normalization**: `location_category` requires case normalization and whitespace stripping.
+4. **Rare Category Handling**: `Rare_Specialized` in `sensor_type` may need grouping.
+
+---
+
 ## Outputs
 
 - `models/aqua_alert_artifacts.joblib`: Saved model bundle.
