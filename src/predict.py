@@ -9,18 +9,9 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 import pandas as pd
-from joblib import load
 
 from src.config import ARTIFACT_PATH
-
-
-def load_artifacts(artifact_path: Path = ARTIFACT_PATH) -> dict[str, Any]:
-    """Load persisted model artifacts without refitting anything."""
-    if not artifact_path.exists():
-        raise FileNotFoundError(
-            f"Saved artifacts were not found at {artifact_path}. Run training first."
-        )
-    return load(artifact_path)
+from src.persistence import load_artifacts
 
 
 def predict(model_artifacts: Mapping[str, Any], input_frame: pd.DataFrame) -> pd.Series:
@@ -28,6 +19,10 @@ def predict(model_artifacts: Mapping[str, Any], input_frame: pd.DataFrame) -> pd
     feature_columns = model_artifacts["feature_columns"]
     preprocessor = model_artifacts["preprocessor"]
     model = model_artifacts["model"]
+
+    missing_columns = [column for column in feature_columns if column not in input_frame.columns]
+    if missing_columns:
+        raise ValueError(f"Input data is missing required columns: {', '.join(missing_columns)}")
 
     feature_frame = input_frame.loc[:, feature_columns]
     transformed_features = preprocessor.transform(feature_frame)

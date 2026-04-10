@@ -6,6 +6,27 @@ Local governments often fail to anticipate rainfall-induced flooding because his
 ## Project Overview
 Aqua-Alert is a Data Science initiative aimed at leveraging predictive modelling to anticipate rainfall-induced flooding. By utilizing historical datasets that traditionally remain unused, this project helps local districts plan and deploy early warnings effectively.
 
+## Project Structure
+
+The repository follows a standard machine learning layout:
+
+```text
+Aqua-Alert/
+├── data/
+│   ├── raw/
+│   └── processed/
+├── notebooks/
+├── src/
+├── models/
+├── reports/
+├── logs/
+├── main.py
+├── requirements.txt
+└── README.md
+```
+
+Raw data stays in `data/raw/`, generated datasets live in `data/processed/`, trained artifacts go in `models/`, evaluation outputs go in `reports/`, and experiment history is written to `logs/`.
+
 ## Project Setup Instructions
 
 This section provides a clear, step-by-step guide to setting up the environment and running the project reliably on any machine.
@@ -42,12 +63,12 @@ pip install -r requirements.txt
 ```
 
 ### 4. Run the Training Pipeline
-Execute the main script to load data, perform feature engineering, train the model, and evaluate performance:
+Execute the main script to load data, perform feature engineering, train the model, save artifacts, and generate reports:
 
 ```bash
-python src/main.py
+python main.py
 ```
-This script evaluates the model on a test set and displays key metrics (Accuracy, Confusion Matrix, Classification Report).
+This script evaluates the model on a test set and writes the trained artifact bundle to `models/`, the evaluation report to `reports/`, and the run log to `logs/`.
 
 ### 5. Run Prediction
 To demonstrate inference with saved model artifacts, run:
@@ -61,9 +82,16 @@ This project has been tested in a clean environment to ensure all dependencies a
 
 ## Modular ML Workflow
 The repository includes a structured `src/` layout:
-- `data_preprocessing.py`: Logic for data ingestion and cleaning.
+- `config.py`: Centralized configuration and filesystem paths.
+- `data_preprocessing.py`: Data ingestion, cleaning, and splitting.
 - `feature_engineering.py`: Transformation and scaling logic.
-- `train.py`: Model fitting and artifact persistence.
+- `train.py`: Model fitting.
 - `evaluate.py`: Performance metrics calculation.
+- `persistence.py`: Saving and loading artifacts, reports, and logs.
 - `predict.py`: Independent inference pipeline.
-- `config.py`: Centralized configuration and constants.
+
+## Outputs
+
+- `models/aqua_alert_artifacts.joblib`: Saved model bundle.
+- `reports/evaluation_report.json`: Evaluation summary.
+- `logs/experiment_log.csv`: Append-only experiment log.

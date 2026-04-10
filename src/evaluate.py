@@ -17,5 +17,5 @@ def evaluate_model(model, preprocessor, X_test, y_test) -> Dict[str, Any]:
             predictions,
             zero_division=0,
         ),
-        "confusion_matrix": confusion_matrix(y_test, predictions),
+        "confusion_matrix": confusion_matrix(y_test, predictions).tolist(),
     }

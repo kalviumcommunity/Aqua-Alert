@@ -10,7 +10,8 @@ if str(PROJECT_ROOT) not in sys.path:
 from src.config import FEATURE_COLUMNS
 from src.data_preprocessing import load_dataset, split_dataset
 from src.evaluate import evaluate_model
-from src.train import save_artifacts, train_model
+from src.persistence import append_experiment_log, save_artifacts, save_evaluation_report
+from src.train import train_model
 
 
 def run_pipeline() -> dict:
@@ -20,11 +21,29 @@ def run_pipeline() -> dict:
     model, preprocessor = train_model(X_train, y_train)
     artifact_path = save_artifacts(model, preprocessor, FEATURE_COLUMNS)
     metrics = evaluate_model(model, preprocessor, X_test, y_test)
+    report_path = save_evaluation_report(
+        {
+            "dataset_shape": list(dataset.shape),
+            "features": list(FEATURE_COLUMNS),
+            **metrics,
+        }
+    )
+    log_path = append_experiment_log(
+        {
+            "dataset_rows": dataset.shape[0],
+            "dataset_columns": dataset.shape[1],
+            "accuracy": round(metrics["accuracy"], 6),
+            "artifact_path": str(artifact_path),
+            "report_path": str(report_path),
+        }
+    )
 
     print("--- Aqua-Alert Training Workflow ---")
     print(f"Dataset shape: {dataset.shape}")
     print(f"Features used: {', '.join(FEATURE_COLUMNS)}")
     print(f"Artifacts saved to: {artifact_path}")
+    print(f"Evaluation report saved to: {report_path}")
+    print(f"Experiment log updated at: {log_path}")
     print(f"Accuracy: {metrics['accuracy']:.3f}")
     print("Confusion Matrix:")
     print(metrics["confusion_matrix"])
