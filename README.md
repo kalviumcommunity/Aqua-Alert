@@ -117,6 +117,25 @@ Before training any model, we systematically inspected the distributions of each
 3. **Categorical Normalization**: `location_category` requires case normalization and whitespace stripping.
 4. **Rare Category Handling**: `Rare_Specialized` in `sensor_type` may need grouping.
 
+## Data Splitting Strategy
+
+To ensure honest evaluation and measure the model's ability to generalize to unseen data, we implement a strict data splitting boundary.
+
+### Split Methodology
+- **Split Ratio**: 80% Training / 20% Testing.
+- **Stratification**: Enabled (`stratify=y`). This ensures that the class proportions in both the training and testing sets match the original dataset, which is critical for maintaining evaluation stability in classification tasks.
+- **Reproducibility**: `random_state=42` is fixed to ensure that the exact same split is generated every time the script is run.
+
+### Leakage Prevention
+- **Split Before Fitting**: The data is split into $X_{train}, X_{test}, y_{train}, y_{test}$ *before* any preprocessing (scaling, encoding, or imputation) is fitted.
+- **Training Integrity**: All transformations are fitted strictly on the training set ($X_{train}$) and then applied to the test set ($X_{test}$). This prevents "future information" from leaking into the training process.
+- **Sacred Test Set**: The test set is held out entirely and is not used for hyperparameter tuning or feature selection.
+
+### Validation
+Each split is verified by checking:
+1. **Set Shapes**: Confirming the 80/20 ratio is correctly applied.
+2. **Class Proportions**: Confirming that the target distribution remains consistent across both sets (verified < 1% difference).
+
 ---
 
 ## Outputs
