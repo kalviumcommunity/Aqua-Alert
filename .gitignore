@@ -14,6 +14,10 @@ __pycache__/
 models/*.joblib
 models/*.pkl
 data/processed/*.csv
+reports/*
+!reports/.gitkeep
+logs/*
+!logs/.gitkeep
 
 # VS Code
 .vscode/
