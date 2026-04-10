@@ -10,7 +10,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 import pandas as pd
 
-from src.config import ARTIFACT_PATH
+from src.data_loader import load_data
 from src.persistence import load_artifacts
 
 
@@ -32,10 +32,8 @@ def predict(model_artifacts: Mapping[str, Any], input_frame: pd.DataFrame) -> pd
 
 def main() -> None:
     """Run a simple prediction example using the saved artifact bundle."""
-    from src.data_preprocessing import load_dataset
-
     artifacts = load_artifacts()
-    sample_input = load_dataset(n_samples=5, random_state=1).drop(columns=["target"]).iloc[[0]]
+    sample_input = load_data(n_samples=5, random_state=1).drop(columns=["target"]).iloc[[0]]
     prediction = predict(artifacts, sample_input)
 
     print("--- Aqua-Alert Prediction ---")
