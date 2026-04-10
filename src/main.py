@@ -7,8 +7,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.config import FEATURE_COLUMNS
-from src.data_preprocessing import load_dataset, split_dataset
+from src.data_loader import load_data
 from src.evaluate import evaluate_model
 from src.persistence import append_experiment_log, save_artifacts, save_evaluation_report
 from src.train import train_model
@@ -16,15 +15,14 @@ from src.train import train_model
 
 def run_pipeline() -> dict:
     """Train, evaluate, and persist the model artifacts."""
-    dataset = load_dataset()
-    X_train, X_test, y_train, y_test = split_dataset(dataset)
-    model, preprocessor = train_model(X_train, y_train)
-    artifact_path = save_artifacts(model, preprocessor, FEATURE_COLUMNS)
+    dataset = load_data()
+    model, preprocessor, X_test, y_test, feature_columns = train_model(dataset)
+    artifact_path = save_artifacts(model, preprocessor, feature_columns)
     metrics = evaluate_model(model, preprocessor, X_test, y_test)
     report_path = save_evaluation_report(
         {
             "dataset_shape": list(dataset.shape),
-            "features": list(FEATURE_COLUMNS),
+            "features": feature_columns,
             **metrics,
         }
     )
@@ -40,7 +38,7 @@ def run_pipeline() -> dict:
 
     print("--- Aqua-Alert Training Workflow ---")
     print(f"Dataset shape: {dataset.shape}")
-    print(f"Features used: {', '.join(FEATURE_COLUMNS)}")
+    print(f"Features used: {', '.join(feature_columns)}")
     print(f"Artifacts saved to: {artifact_path}")
     print(f"Evaluation report saved to: {report_path}")
     print(f"Experiment log updated at: {log_path}")

@@ -83,9 +83,9 @@ This project has been tested in a clean environment to ensure all dependencies a
 ## Modular ML Workflow
 The repository includes a structured `src/` layout:
 - `config.py`: Centralized configuration and filesystem paths.
-- `data_preprocessing.py`: Data ingestion, cleaning, and splitting.
-- `feature_engineering.py`: Transformation and scaling logic.
-- `train.py`: Model fitting.
+- `data_loader.py`: Raw data loading only, with no splitting or transformation.
+- `preprocessing.py`: Reusable preprocessing pipeline construction.
+- `train.py`: Train/test splitting, preprocessing fit, and model fitting.
 - `evaluate.py`: Performance metrics calculation.
 - `persistence.py`: Saving and loading artifacts, reports, and logs.
 - `predict.py`: Independent inference pipeline.

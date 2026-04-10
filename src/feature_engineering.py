@@ -1,8 +1,8 @@
-"""Reusable feature transformations for the Aqua-Alert ML workflow."""
+"""Backward-compatible wrappers for feature preprocessing."""
 
-from sklearn.preprocessing import StandardScaler
+from src.preprocessing import build_preprocessing_pipeline
 
 
 def build_preprocessor() -> StandardScaler:
     """Create the feature transformer used during training and prediction."""
-    return StandardScaler()
+    return build_preprocessing_pipeline()
