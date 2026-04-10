@@ -17,11 +17,18 @@ TEST_SIZE = 0.2
 SAMPLE_SIZE = 500
 TARGET_COLUMN = "target"
 
-FEATURE_COLUMNS = (
-    "feature_1",
-    "feature_2",
-    "feature_3",
-    "feature_4",
-    "feature_5",
-    "feature_6",
+NUMERICAL_FEATURES = (
+    "ph_level",
+    "temperature_c",
+    "turbidity_ntu",
+    "dissolved_oxygen_mg_l",
+    "conductivity_us_cm",
+    "chlorine_mg_l",
 )
+
+CATEGORICAL_FEATURES = (
+    "sensor_type",
+    "location_category",
+)
+
+FEATURE_COLUMNS = NUMERICAL_FEATURES + CATEGORICAL_FEATURES
