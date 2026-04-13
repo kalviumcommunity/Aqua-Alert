@@ -138,8 +138,44 @@ Each split is verified by checking:
 
 ---
 
+## Numerical Feature Scaling
+
+This project applies feature scaling with `StandardScaler` for numeric variables only.
+
+### Which Features Were Scaled
+- `ph_level`
+- `temperature_c`
+- `turbidity_ntu`
+- `dissolved_oxygen_mg_l`
+- `conductivity_us_cm`
+- `chlorine_mg_l`
+
+### Model Used
+- `LogisticRegression` (scikit-learn)
+
+### Why Scaling Was Required
+`LogisticRegression` is gradient-based and sensitive to feature magnitude. Without scaling, large-range variables can dominate optimization and slow or destabilize convergence. Standardizing numeric variables to zero mean and unit variance gives each numeric feature a comparable scale.
+
+### Leakage Prevention During Scaling
+- The project explicitly separates `X` and `y`.
+- Train/test split is performed before any preprocessing fit.
+- A `ColumnTransformer` is fitted only on `X_train`.
+- The fitted transformer is reused to transform `X_test`.
+- The target variable is never scaled.
+
+### Why Categorical Features Were Not Scaled
+Categorical columns are non-numeric labels and do not have meaningful distance on a continuous scale. They are processed with `OneHotEncoder(handle_unknown="ignore")` instead of `StandardScaler`.
+
+### Scaler Persistence for Inference
+- The fitted scaler from the numerical preprocessing branch is saved as `models/standard_scaler.pkl` using `joblib.dump`.
+- The full preprocessing + model bundle is also saved in `models/aqua_alert_artifacts.joblib`.
+- Inference uses the saved fitted preprocessing artifacts and does not refit the scaler.
+
+---
+
 ## Outputs
 
 - `models/aqua_alert_artifacts.joblib`: Saved model bundle.
+- `models/standard_scaler.pkl`: Saved fitted `StandardScaler` for numerical features.
 - `reports/evaluation_report.json`: Evaluation summary.
 - `logs/experiment_log.csv`: Append-only experiment log.
