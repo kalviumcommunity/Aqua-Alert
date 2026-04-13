@@ -18,21 +18,22 @@ def train_model(
     if target_column not in dataframe.columns:
         raise ValueError(f"Target column '{target_column}' was not found.")
 
-    features = dataframe.drop(columns=[target_column])
-    target = dataframe[target_column]
+    X = dataframe.drop(columns=[target_column])
+    y = dataframe[target_column]
 
     X_train, X_test, y_train, y_test = train_test_split(
-        features,
-        target,
+        X,
+        y,
         test_size=test_size,
         random_state=random_state,
-        stratify=target,
+        stratify=y,
     )
 
+    # Fit the preprocessing pipeline strictly on training features.
     preprocessor = build_preprocessing_pipeline()
     X_train_transformed = preprocessor.fit_transform(X_train)
 
     model = LogisticRegression(max_iter=1000, random_state=random_state)
     model.fit(X_train_transformed, y_train)
 
-    return model, preprocessor, X_test, y_test, list(features.columns)
+    return model, preprocessor, X_test, y_test, list(X.columns)
