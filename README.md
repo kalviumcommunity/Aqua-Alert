@@ -225,3 +225,58 @@ These are written to `reports/evaluation_report.json` and summarized in console 
 
 ### Is Improvement Meaningful?
 Improvement is considered meaningful when the primary model exceeds the baseline on multiple shared metrics (especially macro F1 and per-class recall), indicating it learns predictive patterns beyond majority-class guessing.
+
+---
+
+## Linear Regression vs Mean Baseline
+
+This repository also includes a regression baseline experiment that compares:
+- Baseline: `DummyRegressor(strategy="mean")`
+- Model: `LinearRegression`
+
+Run it with:
+
+```bash
+python regression_main.py
+```
+
+The workflow:
+1. Splits train/test before fitting anything.
+2. Fits preprocessing on training data only (`ColumnTransformer` with `StandardScaler` + `OneHotEncoder`).
+3. Trains both baseline and linear regression on the same transformed training data.
+4. Evaluates both on the same held-out test set.
+5. Saves results to `reports/regression_evaluation_report.json`.
+
+### Required Regression Metrics (Test Set)
+- RMSE
+- MAE
+- R2
+
+### Interpretation Checklist
+- Did Linear Regression outperform baseline?
+- Is improvement meaningful across RMSE, MAE, and R2 together?
+- What does R2 indicate about explained variance versus a mean-only predictor?
+- Are top coefficients directionally plausible for the domain?
+- Could assumptions be violated (outliers, nonlinearity, heteroscedasticity)?
+
+Use `reports/regression_evaluation_report.json` for final metric values, coefficient magnitudes, and assumption diagnostics.
+
+### Latest Results (Test Set)
+- Baseline (`DummyRegressor(strategy="mean")`): RMSE = 0.496835, MAE = 0.388689, R2 = -0.003720
+- Linear Regression: RMSE = 0.333593, MAE = 0.236447, R2 = 0.547495
+
+### Scenario Answers
+- Did Linear Regression outperform the baseline?
+Yes. Linear Regression improved all required metrics on the same held-out test set.
+
+- Is the improvement meaningful?
+Yes. RMSE improved by 0.163241, MAE improved by 0.152242, and R2 improved by 0.551215, indicating a substantial gain over a mean-only predictor.
+
+- What does the R2 value indicate?
+R2 = 0.547495 indicates the model explains about 54.75% of the variance in the continuous target on unseen test data, while the mean baseline (R2 slightly below 0) performs worse than predicting the average target under this split.
+
+- Are coefficients interpretable and reasonable?
+Yes, generally. Large positive coefficients for industrial/urban indicators and negative coefficients for remote/rural categories align with how the synthetic continuous target is constructed. Numerical coefficients are directionally consistent with the target formula and scaled feature representation.
+
+- Were any assumptions potentially violated?
+Potentially yes. Residual-to-prediction correlation is 0.153, suggesting possible heteroscedasticity or mild nonlinearity; outliers in `ph_level` and `conductivity_us_cm` can also affect strict linear assumptions.
