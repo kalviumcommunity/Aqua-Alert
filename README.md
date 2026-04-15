@@ -190,3 +190,38 @@ For this assignment, outliers were left unchanged to preserve raw signal behavio
 - `models/minmax_scaler.pkl`: Saved fitted `MinMaxScaler` for numerical features.
 - `reports/evaluation_report.json`: Evaluation summary.
 - `logs/experiment_log.csv`: Append-only experiment log.
+
+---
+
+## Baseline Model Comparison
+
+To establish a minimum benchmark for this classification task, the workflow trains and evaluates a baseline model alongside the primary model.
+
+### Baseline Choice
+- Baseline model: `DummyClassifier(strategy="most_frequent")`
+- Why this baseline: it predicts the majority class only, representing a trivial classifier that uses class frequency without learning feature-target relationships.
+
+### Train/Test Integrity and Leakage Control
+- Dataset is split before any model fitting.
+- Both baseline and primary models are fit only on the training data.
+- Both are evaluated on the same held-out test set.
+- Both use the same evaluation metrics for fair comparison.
+
+### Metrics Used (Same for Both Models)
+- Accuracy
+- Macro Precision
+- Macro Recall
+- Macro F1
+- Confusion Matrix
+- Full per-class classification report
+
+### Comparison Output
+`src/main.py` computes and saves:
+- `primary_model_metrics`
+- `baseline_metrics`
+- `model_vs_baseline` with metric deltas
+
+These are written to `reports/evaluation_report.json` and summarized in console output for side-by-side inspection.
+
+### Is Improvement Meaningful?
+Improvement is considered meaningful when the primary model exceeds the baseline on multiple shared metrics (especially macro F1 and per-class recall), indicating it learns predictive patterns beyond majority-class guessing.

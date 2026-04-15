@@ -17,6 +17,7 @@ RANDOM_STATE = 42
 TEST_SIZE = 0.2
 SAMPLE_SIZE = 500
 TARGET_COLUMN = "target"
+BASELINE_STRATEGY = "most_frequent"
 
 NUMERICAL_FEATURES = (
     "ph_level",
