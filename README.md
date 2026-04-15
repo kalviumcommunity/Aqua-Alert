@@ -138,9 +138,9 @@ Each split is verified by checking:
 
 ---
 
-## Numerical Feature Scaling
+## Numerical Feature Normalization
 
-This project applies feature scaling with `StandardScaler` for numeric variables only.
+This project applies feature normalization with `MinMaxScaler` for numeric variables only.
 
 ### Which Features Were Scaled
 - `ph_level`
@@ -153,29 +153,40 @@ This project applies feature scaling with `StandardScaler` for numeric variables
 ### Model Used
 - `LogisticRegression` (scikit-learn)
 
-### Why Scaling Was Required
-`LogisticRegression` is gradient-based and sensitive to feature magnitude. Without scaling, large-range variables can dominate optimization and slow or destabilize convergence. Standardizing numeric variables to zero mean and unit variance gives each numeric feature a comparable scale.
+### Why MinMaxScaler Was Chosen Instead of StandardScaler
+`LogisticRegression` is scale-sensitive and benefits from consistent feature ranges. `MinMaxScaler` was selected to bound each numerical feature to $[0, 1]$, which provides stable optimization and comparable magnitudes across inputs while preserving relative ordering. This project uses normalization primarily to enforce bounded inputs end-to-end.
+
+`StandardScaler` is still valid in many settings, but it produces unbounded transformed values and is more sensitive to outlier magnitude in terms of resulting standardized values. Since this workflow benefits from fixed-range inputs, `MinMaxScaler` is the preferred choice.
 
 ### Leakage Prevention During Scaling
 - The project explicitly separates `X` and `y`.
 - Train/test split is performed before any preprocessing fit.
-- A `ColumnTransformer` is fitted only on `X_train`.
-- The fitted transformer is reused to transform `X_test`.
+- A `ColumnTransformer` with `MinMaxScaler` (numerical) and `OneHotEncoder` (categorical) is fitted only on `X_train`.
+- The fitted transformer is reused to transform `X_test` with `transform()` only.
 - The target variable is never scaled.
 
 ### Why Categorical Features Were Not Scaled
-Categorical columns are non-numeric labels and do not have meaningful distance on a continuous scale. They are processed with `OneHotEncoder(handle_unknown="ignore")` instead of `StandardScaler`.
+Categorical columns are non-numeric labels and do not have meaningful distance on a continuous scale. They are encoded with `OneHotEncoder(handle_unknown="ignore")` and are not passed through `MinMaxScaler`.
+
+### Verification of MinMax Range
+After fitting on `X_train`, the project verifies normalization by checking that each training numerical feature has minimum approximately $0$ and maximum approximately $1$ (within floating-point tolerance). Verification results are printed in training logs and saved in `reports/evaluation_report.json`.
+
+### Outlier Consideration
+- `ph_level` includes impossible/extreme injected values.
+- `conductivity_us_cm` is strongly right-skewed with injected extreme outliers.
+
+For this assignment, outliers were left unchanged to preserve raw signal behavior and to demonstrate true MinMax behavior under realistic skewed data. This is acceptable because the chosen model still benefits from bounded numeric inputs in $[0, 1]$. In a production setting, optional clipping or log transforms can be evaluated before normalization if outlier compression is required.
 
 ### Scaler Persistence for Inference
-- The fitted scaler from the numerical preprocessing branch is saved as `models/standard_scaler.pkl` using `joblib.dump`.
+- The fitted scaler from the numerical preprocessing branch is saved as `models/minmax_scaler.pkl` using `joblib.dump`.
 - The full preprocessing + model bundle is also saved in `models/aqua_alert_artifacts.joblib`.
-- Inference uses the saved fitted preprocessing artifacts and does not refit the scaler.
+- Inference loads saved preprocessing artifacts and saved scaler with `joblib.load` and does not refit the scaler.
 
 ---
 
 ## Outputs
 
 - `models/aqua_alert_artifacts.joblib`: Saved model bundle.
-- `models/standard_scaler.pkl`: Saved fitted `StandardScaler` for numerical features.
+- `models/minmax_scaler.pkl`: Saved fitted `MinMaxScaler` for numerical features.
 - `reports/evaluation_report.json`: Evaluation summary.
 - `logs/experiment_log.csv`: Append-only experiment log.

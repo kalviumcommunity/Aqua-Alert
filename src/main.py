@@ -17,7 +17,7 @@ from src.train import train_model
 def run_pipeline() -> dict:
     """Train, evaluate, and persist the model artifacts."""
     dataset = load_data()
-    model, preprocessor, X_test, y_test, feature_columns = train_model(dataset)
+    model, preprocessor, X_test, y_test, feature_columns, normalization_verification = train_model(dataset)
     artifact_path = save_artifacts(model, preprocessor, feature_columns)
     scaler = get_fitted_scaler(preprocessor)
     scaler_path = save_scaler(scaler)
@@ -26,6 +26,7 @@ def run_pipeline() -> dict:
         {
             "dataset_shape": list(dataset.shape),
             "features": feature_columns,
+            "normalization_verification": normalization_verification,
             **metrics,
         }
     )
@@ -36,6 +37,8 @@ def run_pipeline() -> dict:
             "accuracy": round(metrics["accuracy"], 6),
             "artifact_path": str(artifact_path),
             "scaler_path": str(scaler_path),
+            "normalization_all_mins_close_to_0": normalization_verification["all_mins_close_to_0"],
+            "normalization_all_maxs_close_to_1": normalization_verification["all_maxs_close_to_1"],
             "report_path": str(report_path),
         }
     )
@@ -45,6 +48,12 @@ def run_pipeline() -> dict:
     print(f"Features used: {', '.join(feature_columns)}")
     print(f"Artifacts saved to: {artifact_path}")
     print(f"Scaler saved to: {scaler_path}")
+    print(
+        "Normalization verification "
+        f"(all mins~0, all maxs~1): "
+        f"({normalization_verification['all_mins_close_to_0']}, "
+        f"{normalization_verification['all_maxs_close_to_1']})"
+    )
     print(f"Evaluation report saved to: {report_path}")
     print(f"Experiment log updated at: {log_path}")
     print(f"Accuracy: {metrics['accuracy']:.3f}")
