@@ -10,7 +10,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.dummy import DummyRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score, train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 from src.config import (
@@ -118,8 +118,23 @@ def run_linear_regression_baseline_experiment(
     improvement = {
         "rmse_delta": baseline_metrics["rmse"] - linear_metrics["rmse"],
         "mae_delta": baseline_metrics["mae"] - linear_metrics["mae"],
+        "mae_pct_improvement": (
+            (baseline_metrics["mae"] - linear_metrics["mae"]) / baseline_metrics["mae"] * 100
+            if baseline_metrics["mae"] != 0
+            else 0.0
+        ),
         "r2_delta": linear_metrics["r2"] - baseline_metrics["r2"],
     }
+
+    print("Running cross-validation...")
+    cv_scores = cross_val_score(
+        linear_model,
+        X_train_transformed,
+        y_train,
+        cv=5,
+        scoring="neg_mean_absolute_error",
+    )
+    mae_cv_scores = -cv_scores
 
     feature_names = preprocessor.get_feature_names_out().tolist()
     coefficients = linear_model.coef_.tolist()
@@ -161,6 +176,12 @@ def run_linear_regression_baseline_experiment(
             "top_coefficients_by_absolute_value": sorted_coefficients[:10],
         },
         "comparison": improvement,
+        "cross_validation": {
+            "metric": "MAE",
+            "scores": mae_cv_scores.tolist(),
+            "mean": float(np.mean(mae_cv_scores)),
+            "std": float(np.std(mae_cv_scores)),
+        },
         "meaningful_improvement": bool(
             improvement["rmse_delta"] > 0 and improvement["mae_delta"] > 0 and improvement["r2_delta"] > 0
         ),
@@ -184,11 +205,13 @@ def run_linear_regression_baseline_experiment(
         f"  RMSE={linear_metrics['rmse']:.6f}, MAE={linear_metrics['mae']:.6f}, "
         f"R2={linear_metrics['r2']:.6f}"
     )
-    print("Improvement (positive is better):")
     print(
         f"  RMSE delta={improvement['rmse_delta']:.6f}, "
-        f"MAE delta={improvement['mae_delta']:.6f}, R2 delta={improvement['r2_delta']:.6f}"
+        f"MAE delta={improvement['mae_delta']:.6f} "
+        f"({improvement['mae_pct_improvement']:.2f}%), "
+        f"R2 delta={improvement['r2_delta']:.6f}"
     )
+    print(f"Cross-Validation MAE: {np.mean(mae_cv_scores):.6f} ± {np.std(mae_cv_scores):.6f}")
     print(f"Meaningful improvement: {result['meaningful_improvement']}")
     print(f"Regression report saved to: {report_path}")
 
