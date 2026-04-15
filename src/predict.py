@@ -10,8 +10,9 @@ if str(PROJECT_ROOT) not in sys.path:
 
 import pandas as pd
 
+from src.config import NUMERICAL_FEATURES
 from src.data_loader import load_data
-from src.persistence import load_artifacts
+from src.persistence import load_artifacts, load_scaler
 
 
 def predict(model_artifacts: Mapping[str, Any], input_frame: pd.DataFrame) -> pd.Series:
@@ -33,11 +34,17 @@ def predict(model_artifacts: Mapping[str, Any], input_frame: pd.DataFrame) -> pd
 def main() -> None:
     """Run a simple prediction example using the saved artifact bundle."""
     artifacts = load_artifacts()
-    sample_input = load_data(n_samples=5, random_state=1).drop(columns=["target"]).iloc[[0]]
+    scaler = load_scaler()
+    sample_input = load_data(n_samples=50, random_state=1).drop(columns=["target"]).iloc[[0]]
+
+    # Demonstrate loading and reusing the fitted scaler artifact for inference-time preprocessing.
+    scaled_numerical = scaler.transform(sample_input.loc[:, list(NUMERICAL_FEATURES)])
     prediction = predict(artifacts, sample_input)
 
     print("--- Aqua-Alert Prediction ---")
     print(sample_input)
+    print("Scaled numerical features (loaded MinMax scaler):")
+    print(scaled_numerical)
     print("Prediction:")
     print(prediction.to_string(index=False))
 

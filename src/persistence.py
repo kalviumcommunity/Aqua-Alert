@@ -34,14 +34,14 @@ def save_artifacts(model, preprocessor, feature_columns, artifact_path: Path = A
 
 
 def save_scaler(scaler, scaler_path: Path = SCALER_PATH) -> Path:
-    """Persist the fitted StandardScaler for reuse during inference."""
+    """Persist the fitted MinMaxScaler for reuse during inference."""
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
     dump(scaler, scaler_path)
     return scaler_path
 
 
 def load_scaler(scaler_path: Path = SCALER_PATH):
-    """Load the persisted StandardScaler without refitting."""
+    """Load the persisted MinMaxScaler without refitting."""
     if not scaler_path.exists():
         raise FileNotFoundError(f"Saved scaler was not found at {scaler_path}. Run training first.")
     return load(scaler_path)
@@ -78,6 +78,8 @@ def append_experiment_log(
         "accuracy",
         "artifact_path",
         "scaler_path",
+        "normalization_all_mins_close_to_0",
+        "normalization_all_maxs_close_to_1",
         "report_path",
     ]
 
@@ -89,6 +91,8 @@ def append_experiment_log(
         "accuracy": record.get("accuracy", ""),
         "artifact_path": record.get("artifact_path", ""),
         "scaler_path": record.get("scaler_path", ""),
+        "normalization_all_mins_close_to_0": record.get("normalization_all_mins_close_to_0", ""),
+        "normalization_all_maxs_close_to_1": record.get("normalization_all_maxs_close_to_1", ""),
         "report_path": record.get("report_path", ""),
     }
 

@@ -9,7 +9,7 @@ MODELS_DIR = PROJECT_ROOT / "models"
 REPORTS_DIR = PROJECT_ROOT / "reports"
 LOGS_DIR = PROJECT_ROOT / "logs"
 ARTIFACT_PATH = MODELS_DIR / "aqua_alert_artifacts.joblib"
-SCALER_PATH = MODELS_DIR / "standard_scaler.pkl"
+SCALER_PATH = MODELS_DIR / "minmax_scaler.pkl"
 EVALUATION_REPORT_PATH = REPORTS_DIR / "evaluation_report.json"
 EXPERIMENT_LOG_PATH = LOGS_DIR / "experiment_log.csv"
 
