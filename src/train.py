@@ -3,10 +3,11 @@
 from __future__ import annotations
 
 import numpy as np
+from sklearn.dummy import DummyClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 
-from src.config import NUMERICAL_FEATURES, RANDOM_STATE, TARGET_COLUMN, TEST_SIZE
+from src.config import BASELINE_STRATEGY, NUMERICAL_FEATURES, RANDOM_STATE, TARGET_COLUMN, TEST_SIZE
 from src.preprocessing import build_preprocessing_pipeline, get_fitted_scaler
 
 
@@ -50,8 +51,9 @@ def train_model(
     target_column: str = TARGET_COLUMN,
     test_size: float = TEST_SIZE,
     random_state: int = RANDOM_STATE,
+    baseline_strategy: str = BASELINE_STRATEGY,
 ):
-    """Split the dataset, fit preprocessing on train only, and train the classifier."""
+    """Split data, fit preprocessing on train only, and train main + baseline classifiers."""
     if target_column not in dataframe.columns:
         raise ValueError(f"Target column '{target_column}' was not found.")
 
@@ -74,4 +76,16 @@ def train_model(
     model = LogisticRegression(max_iter=1000, random_state=random_state)
     model.fit(X_train_transformed, y_train)
 
-    return model, preprocessor, X_test, y_test, list(X.columns), normalization_verification
+    baseline_model = DummyClassifier(strategy=baseline_strategy, random_state=random_state)
+    baseline_model.fit(X_train_transformed, y_train)
+
+    return (
+        model,
+        baseline_model,
+        preprocessor,
+        X_test,
+        y_test,
+        list(X.columns),
+        normalization_verification,
+        baseline_strategy,
+    )
