@@ -11,6 +11,7 @@ LOGS_DIR = PROJECT_ROOT / "logs"
 ARTIFACT_PATH = MODELS_DIR / "aqua_alert_artifacts.joblib"
 SCALER_PATH = MODELS_DIR / "minmax_scaler.pkl"
 EVALUATION_REPORT_PATH = REPORTS_DIR / "evaluation_report.json"
+REGRESSION_REPORT_PATH = REPORTS_DIR / "regression_evaluation_report.json"
 EXPERIMENT_LOG_PATH = LOGS_DIR / "experiment_log.csv"
 
 RANDOM_STATE = 42
